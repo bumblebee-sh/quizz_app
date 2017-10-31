@@ -1,0 +1,28 @@
+<form #f="ngForm" (submit)="f.valid && save_answer(f)" novalidate>
+  <div class="form-group">
+    <label for="name_input" class="font-weight-bold">Question {{model.index}}</label>
+    <input type="text" class="form-control" id="name_input" name="question"
+           [class.is-invalid]="title.invalid && f.submitted"
+           [(ngModel)]="model.title"
+           #title="ngModel"
+           required>
+    <div class="invalid-feedback">
+      Question is required.
+    </div>
+  </div>
+  <div class="form-group">
+    <p class="font-weight-bold">Answers</p>
+    <div class="d-block">
+        <div class="answer d-flex" *ngFor="let item of model.answers">
+          <input type="text" class="form-control" name="answer" value="{{item.text}}" #answer minlength="2">
+          <span class="btn btn-danger" (click)="remove_answer(answer.value)"><span aria-hidden="true">&times;</span></span>
+        </div>
+        <div class="answer d-flex">
+          <input type="text" class="form-control" name="answer"
+                 #add_answer_input (keyup.enter)="add_answer(add_answer_input)">
+          <span class="btn btn-success" (click)="add_answer(add_answer_input);"><span aria-hidden="true">+</span></span>
+        </div>
+    </div>
+    <span class="btn btn-danger mt-4" (click)="onDelete(model)">Delete</span>
+  </div>
+</form>

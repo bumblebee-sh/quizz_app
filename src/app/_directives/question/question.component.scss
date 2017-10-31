@@ -1,0 +1,8 @@
+.answer{
+  &:not(:last-child){
+    margin-bottom: 15px;
+  }
+  .btn{
+    margin-left: 10px;
+  }
+}

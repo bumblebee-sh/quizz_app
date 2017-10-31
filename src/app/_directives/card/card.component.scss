@@ -1,0 +1,22 @@
+.wr_cards{
+  position: relative;
+  &:hover{
+    .action_btn{
+      opacity: 1;
+    }
+  }
+}
+.action_btn{
+  padding: 20px;
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  transition: all .2s ease;
+}
+.cart__btn{
+  .btn:first-child{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: calc(100% - 90px);
+  }
+}

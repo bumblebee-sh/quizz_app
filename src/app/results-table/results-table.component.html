@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row" *ngIf="quiz.passed.length">
+    <div class="col">
+      <h1>Results table</h1>
+      <table class="table text-center">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Title</th>
+          <th scope="col">Time</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let result of quiz.passed">
+          <th scope="row">{{quiz._id}}</th>
+          <td>{{quiz.name}}</td>
+          <td>{{quiz.title}}</td>
+          <td>{{result.time | date:'short' }}</td>
+          <td><span class="btn btn-outline-info" (click)="show_more(result)">Watch detail</span></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="text-center" *ngIf="!quiz.passed.length">
+      No one passed this quiz.
+  </div>
+</div>

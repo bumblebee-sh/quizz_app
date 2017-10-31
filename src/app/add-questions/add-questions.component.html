@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col">
+    <div class="questions">
+      <div class="questions__items" *ngIf="questions.length">
+        <span class="questions__item btn btn-light" *ngFor="let item of questions; let i = index" (click)="pick_question(item)">Question {{i+1}}</span>
+        <span class="btn btn-primary align-top" (click)="add_question()">Add Question</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <app-question [model]="current_question" (delete)="OnDelete($event)"></app-question>
+  </div>
+</div>

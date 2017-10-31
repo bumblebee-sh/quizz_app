@@ -1,0 +1,19 @@
+<div class="wr_cards">
+  <div class="d-flex justify-content-between action_btn" *ngIf="!preview">
+    <a [routerLink]="['/edit', model._id]" class="btn btn-warning text-white">Edit</a>
+    <span class="btn btn-danger" (click)="delete_card(model)">Delete</span>
+  </div>
+  <img class="card-img-top" src="{{model.image ? model.image : './assets/images/no_image.png' }}" alt="Card image cap">
+  <div class="card-body">
+    <h4 class="card-title">{{model.name}}</h4>
+    <p class="card-text">{{model.description}}</p>
+    <div class="cart__btn d-flex justify-content-between" *ngIf="preview">
+      <span class="btn btn-info">{{model.button_title || 'Take Quiz'}}</span>
+      <span class="btn btn-info">Result</span>
+    </div>
+    <div class="cart__btn d-flex justify-content-between" *ngIf="!preview">
+      <span class="btn btn-info" (click)="show_quiz(model.questions)">{{model.button_title || 'Take Quiz'}}</span>
+      <span class="btn btn-info" [routerLink]="['/results', model._id]">Result</span>
+    </div>
+  </div>
+</div>

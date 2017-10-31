@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row" *ngIf="log_list.length; else no_logs">
+    <div class="col">
+      <h1>Logs</h1>
+      <table class="table text-center">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Time</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let log of log_list">
+          <td>{{log._id}}</td>
+          <td>{{log.name}}</td>
+          <td>{{log.time | date:'short'}}</td>
+          <td class="font-weight-bold"
+              [ngClass]="{
+                'text-primary':log.action=='add',
+                'text-danger':log.action=='delete',
+                'text-success':log.action=='pass',
+                'text-info':log.action=='edit'
+                }">{{log.action}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <ng-template #no_logs>
+    <div class="text-center">
+      No logs.
+    </div>
+  </ng-template>
+</div>

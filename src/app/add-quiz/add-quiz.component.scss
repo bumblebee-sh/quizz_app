@@ -1,0 +1,16 @@
+.questions{
+  &__item{
+    margin-right: 10px;
+  }
+}
+input[readonly]{
+  background: none;
+}
+div.is-invalid{
+  >*{
+    border-color: var(--red);
+  }
+ &+.invalid-feedback{
+   display: block;
+ }
+}

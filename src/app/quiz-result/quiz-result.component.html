@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Result</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="answers">
+    <div class="answers__item" *ngFor="let question of results">
+      <h5 class="question">{{question.title}}</h5>
+      <ul>
+        <li class="answer rounded" *ngFor="let answer of question.answers" [class.font-weight-bold]="answer.status">
+          <i *ngIf="answer.status" class="fa fa-check" aria-hidden="true"></i> {{answer.text}}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+<div class="modal-footer justify-content-between">
+  <span class="btn btn-success" (click)="modalRef.hide()">Close</span>
+</div>
+

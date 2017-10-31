@@ -1,0 +1,25 @@
+ul{
+  list-style: none;
+  padding: 0 0 0 20px;
+  margin: 0;
+}
+.answer{
+  list-style: none;
+  color: var(--gray);
+  &.font-weight-bold{
+    color: #000;
+  }
+  &:not(:last-child){
+    margin-bottom: 5px;
+  }
+}
+.answers__item{
+  i{
+    color:var(--green);
+  }
+  &:not(:last-child){
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--light);
+  }
+}

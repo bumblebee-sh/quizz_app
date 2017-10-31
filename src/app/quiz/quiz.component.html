@@ -1,0 +1,52 @@
+<div *ngIf="questions.length; else no_questions">
+  <div class="quiz position-relative" *ngIf="!show_last_modal; else congratulation">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">{{questions[step]?.title}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <small class="position-absolute count_steps font-weight-bold text-dark">
+        {{step + 1}} / {{questions.length}}
+      </small>
+    </div>
+    <div class="modal-body">
+      <ul class="answers">
+        <li class="answers__item rounded" *ngFor="let item of questions[step]?.answers" (click)="pick_it(item)" [class.active]="item.status">
+          <i class="fa fa-check" aria-hidden="true"></i> {{item.text}}
+        </li>
+      </ul>
+      <div class="err" *ngIf="err">
+        You should pick answer
+      </div>
+    </div>
+    <div class="modal-footer justify-content-between">
+      <span class="btn btn-info" (click)="go_step(false)" *ngIf="step !== 0">Back</span>
+      <span class="btn btn-info ml-auto" (click)="go_step(true)" *ngIf="!last_step">Next</span>
+      <span class="btn btn-success" (click)="save_quiz()" *ngIf="last_step">Save</span>
+    </div>
+  </div>
+
+  <ng-template #congratulation>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Congratulation</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="close_pop()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body text-center finish_text">
+      You can watch <span (click)="show_result()">result</span> or <span (click)="close_pop()">continue</span>.
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #no_questions>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">No Questions</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="close_pop()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center finish_text">
+    Please add questions.
+  </div>
+</ng-template>

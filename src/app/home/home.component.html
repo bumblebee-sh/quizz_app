@@ -1,0 +1,12 @@
+<div class="container home_card">
+  <div class="row" *ngIf="quizzes.length; else no_quize">
+    <div class="col-md-4" *ngFor="let item of quizzes">
+      <app-card class="card home_card__item d-block mb-4" [model]="item" [models]="quizzes" ></app-card>
+    </div>
+  </div>
+  <ng-template #no_quize>
+    <div class="d-flex justify-content-center">
+      <div>There are no Quizzes yet. You can add it <a routerLink="add_quiz">here</a>.</div>
+    </div>
+  </ng-template>
+</div>

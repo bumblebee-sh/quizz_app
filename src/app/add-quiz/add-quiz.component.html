@@ -1,0 +1,73 @@
+<div class="container" *ngIf="!show_questions">
+  <div class="d-flex justify-content-between align-items-start">
+    <h2>Add New Quiz</h2>
+    <span class="btn btn-light" (click)="toggle_preview()">{{preview ? 'Hide' : 'Show' }} Preview</span>
+  </div>
+  <div class="row">
+    <div class="col-md-6 mr-auto">
+      <form #f="ngForm" novalidate (submit)="f.valid && save_quiz(f)" >
+        <div class="form-group">
+          <label for="name_input">Name</label>
+          <input type="text" class="form-control" id="name_input" name="name"
+                 [class.is-invalid]="name.invalid && f.submitted"
+                 [(ngModel)]="model.name"
+                 #name = ngModel
+                 required>
+          <div class="invalid-feedback">
+            Name is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="title_input">Title</label>
+          <input type="text" class="form-control" id="title_input" name="title"
+                 [class.is-invalid]="title.invalid && f.submitted"
+                 [(ngModel)]="model.title"
+                 #title="ngModel"
+                 required>
+          <div class="invalid-feedback">
+            Title is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="description_input">Description</label>
+          <textarea class="form-control" name="description" id="description_input"
+                    [(ngModel)]="model.description"></textarea>
+        </div>
+        <div class="form-group">
+          <p>Add image</p>
+          <div class="input-group" [class.is-invalid]="error_img">
+            <label class="input-group-addon" for="card_image">Browse</label>
+            <input type="text" readonly value="{{load_btn_text}}" class="form-control">
+            <input type="file" class="d-none form-control"  id="card_image" (change)="add_image($event)" accept=".jpg, .jpeg, .png">
+          </div>
+          <div class="invalid-feedback">
+            Over 2 Mb.
+          </div>
+        </div>
+        <div class="form-group">
+            <label for="button_input">Call to Action Label</label>
+            <input type="text" class="form-control" id="button_input" name="button_title"
+                   [(ngModel)]="model.button_title">
+        </div>
+        <button type="submit" class="btn btn-success">{{edit_mode ? 'Edit' : 'Save Basic Info'}}</button>
+        <button type="button" class="btn btn-info" (click)="toogle_questions()" >Questions</button>
+      </form>
+    </div>
+    <div class="col-md-4" *ngIf="preview">
+      <app-card [model]="model" [preview]="true"></app-card>
+    </div>
+  </div>
+</div>
+<div class="container" *ngIf="show_questions">
+  <div class="row">
+    <div class="col">
+      <button type="button" class="btn btn-info" (click)="toogle_questions()" >Back</button>
+    </div>
+
+  </div>
+  <div class="row">
+    <app-add-questions [questions]="model.questions" class="container-fluid"></app-add-questions>
+  </div>
+
+</div>
+
