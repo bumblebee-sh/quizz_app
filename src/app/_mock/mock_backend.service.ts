@@ -1,19 +1,21 @@
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { environment } from '../../environments/environment';
+import { quiz } from './mock_quiz';
 
 export function fakeBackendFactory (backend: MockBackend, options: BaseRequestOptions) {
   const storage = window.localStorage;
+  const db_name = 'quizzes';
   backend.connections.subscribe((c: MockConnection) => {
 
     // ADD quiz
     if (c.request.url === `${environment.host}${environment.quiz}` && c.request.method === 1) {
       const data = JSON.parse(c.request.getBody()),
             name = data.name;
-      let products = JSON.parse(storage.getItem('quizzes')) || [];
+      let products = JSON.parse(storage.getItem(db_name)) || [];
       products.push(data);
       products = JSON.stringify(products);
-      storage.setItem('quizzes', products);
+      storage.setItem(db_name, products);
       c.mockRespond(new Response(new ResponseOptions({
         body: JSON.stringify(name)
       })));
@@ -21,7 +23,10 @@ export function fakeBackendFactory (backend: MockBackend, options: BaseRequestOp
 
     // GET Quizzes
     if (c.request.url === `${environment.host}${environment.quiz}` && c.request.method === 0) {
-      const data = JSON.parse(storage.getItem('quizzes')) || [];
+      if (!storage.getItem(db_name)) {
+          storage.setItem(db_name, JSON.stringify(quiz));
+      }
+      const data = JSON.parse(storage.getItem(db_name));
       c.mockRespond(new Response(new ResponseOptions({
         body: data
       })));
@@ -29,7 +34,7 @@ export function fakeBackendFactory (backend: MockBackend, options: BaseRequestOp
 
     // DELETE Quiz
     if (c.request.url === `${environment.host}${environment.delete_quiz}` && c.request.method === 1) {
-      const data = JSON.parse(storage.getItem('quizzes')),
+      const data = JSON.parse(storage.getItem(db_name)),
         id = +c.request.getBody();
       let name = '',
         index = 0;
@@ -41,8 +46,11 @@ export function fakeBackendFactory (backend: MockBackend, options: BaseRequestOp
         }
       });
       data.splice(index, 1);
-      storage.removeItem('quizzes');
-      storage.setItem('quizzes', JSON.stringify(data));
+      storage.removeItem(db_name);
+      storage.setItem(db_name, JSON.stringify(data));
+      if (!data.length){
+        storage.removeItem(db_name);
+      }
       c.mockRespond(new Response(new ResponseOptions({
         body: JSON.stringify(name)
       })));
@@ -50,7 +58,7 @@ export function fakeBackendFactory (backend: MockBackend, options: BaseRequestOp
 
     // GET Quiz
     if (c.request.url === `${environment.host}${environment.get_quiz}` && c.request.method === 1) {
-      const data = JSON.parse(storage.getItem('quizzes')),
+      const data = JSON.parse(storage.getItem(db_name)),
         id = +c.request.getBody();
       const product = data.filter((item) =>  {
         if (item._id === id)  {
@@ -64,12 +72,12 @@ export function fakeBackendFactory (backend: MockBackend, options: BaseRequestOp
 
     // EDIT Quiz
     if (c.request.url === `${environment.host}${environment.quiz}` && c.request.method === 2) {
-      const data = JSON.parse(storage.getItem('quizzes')),
+      const data = JSON.parse(storage.getItem(db_name)),
         product = JSON.parse(c.request.getBody()),
         name = product.name;
       const new_data = data.map((item, i) =>  item._id === product._id ? product : item );
-      storage.removeItem('quizzes');
-      storage.setItem('quizzes', JSON.stringify(new_data));
+      storage.removeItem(db_name);
+      storage.setItem(db_name, JSON.stringify(new_data));
       c.mockRespond(new Response(new ResponseOptions({
         body: JSON.stringify(name)
       })));
@@ -77,7 +85,7 @@ export function fakeBackendFactory (backend: MockBackend, options: BaseRequestOp
 
     // SAVE RESULT
     if (c.request.url === `${environment.host}${environment.save_result_quiz}` && c.request.method === 1) {
-      const db = JSON.parse(storage.getItem('quizzes')),
+      const db = JSON.parse(storage.getItem(db_name)),
          data = JSON.parse(c.request.getBody()),
         _id = data._id;
       let quiz = db.filter((item) =>  {
@@ -86,8 +94,8 @@ export function fakeBackendFactory (backend: MockBackend, options: BaseRequestOp
         }
       });
       quiz[0].passed.push({time: data.time, all_answers: data.all_answers});
-      storage.removeItem('quizzes');
-      storage.setItem('quizzes', JSON.stringify(db));
+      storage.removeItem(db_name);
+      storage.setItem(db_name, JSON.stringify(db));
       c.mockRespond(new Response(new ResponseOptions({
         body: 1
       })));

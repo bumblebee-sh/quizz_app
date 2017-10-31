@@ -9,7 +9,7 @@ import { QuizService, AlertMessage, LogService} from './_services/index.services
 // mock backend
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions } from '@angular/http';
-import { fakeBackendProvider } from './_mock_backend/mock_backend.service';
+import { fakeBackendProvider } from './_mock/mock_backend.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
