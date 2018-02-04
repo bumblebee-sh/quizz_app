@@ -5,5 +5,5 @@ export const environment = {
   delete_quiz: 'delete_quiz',
   get_quiz: 'get_quiz',
   log: 'log',
-  host: 'https://mask-sh-4.github.io/reloadly/'
+  host: 'https://mask-sh-4.github.io/quizz_app/'
 };
